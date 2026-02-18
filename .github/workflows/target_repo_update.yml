@@ -1,0 +1,38 @@
+name: React to Remote Repo Changes
+
+on:
+  repository_dispatch:
+    types: [target_repo_updated]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: "auto-update-sha"
+      MIGRATION_PLANNER_AGENT_UI_REPO_NAME: "AvielSegev/source"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read payload
+        id: payload
+        run: |
+          echo "new_sha=${{ github.event.client_payload.sha }}" >> $GITHUB_OUTPUT
+          echo "repo=${{ github.event.client_payload.repo }}" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.update.outputs.repo == ${{ env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: ${{ env.BRANCH_NAME }}
+          commit-message: "chore: Trigger konflux pipeline. The latest sha in repo $ {{ env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }} was changed to ${{ steps.payload.outputs.new_sha }}".
+          title: "Update agent-ui Repo HEAD"
+          body: |
+            Auto update triggered by repository_dispatch.
+            New SHA: ${{ steps.payload.outputs.new_sha }}
+          delete-branch: true
+
