@@ -1,3 +1,3 @@
 should-ignore-this-line
-my_sha_key=12345
+my_sha_key=0597ee379023a4c451de8395eb59c86774c9f5b9
 should-ignore-this-line
