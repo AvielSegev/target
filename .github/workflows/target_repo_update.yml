@@ -14,6 +14,7 @@ jobs:
     env:
       BRANCH_NAME: "auto-update-sha"
       MIGRATION_PLANNER_AGENT_UI_REPO_NAME: "AvielSegev/source"
+      CONFIG_FILE: "build/config.txt"
 
     steps:
       - uses: actions/checkout@v4
@@ -23,6 +24,12 @@ jobs:
         run: |
           echo "new_sha=${{ github.event.client_payload.sha }}" >> $GITHUB_OUTPUT
           echo "repo=${{ github.event.client_payload.repo }}" >> $GITHUB_OUTPUT
+
+      - name: Update file
+        id: update
+        run: |
+          NEW_SHA=${{ steps.target-repo.outputs.latest_sha }}
+          sed -i "s/^my_sha_key=.*/my_sha_key=$NEW_SHA/" "$CONFIG_FILE"
 
       - name: Create Pull Request
         if: ${{ steps.payload.outputs.repo == env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }}
