@@ -28,7 +28,7 @@ jobs:
       - name: Update file
         id: update
         run: |
-          NEW_SHA=${{ steps.target-repo.outputs.latest_sha }}
+          NEW_SHA=${{ steps.payload.outputs.new_sha }}
           sed -i "s/^my_sha_key=.*/my_sha_key=$NEW_SHA/" "$CONFIG_FILE"
 
       - name: Create Pull Request
@@ -39,7 +39,7 @@ jobs:
           commit-message: "chore: Trigger konflux pipeline. The latest sha in repo ${{ env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }} was changed to ${{ steps.payload.outputs.new_sha }}."
           title: "Update agent-ui Repo HEAD"
           body: |
-            Auto update triggered by $ {{ steps.payload.outputs.repo }}.
+            Auto update triggered by ${{ steps.payload.outputs.repo }}.
             New SHA: ${{ steps.payload.outputs.new_sha }}
           delete-branch: true
 
