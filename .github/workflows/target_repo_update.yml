@@ -15,7 +15,6 @@ jobs:
       BRANCH_NAME: "auto-update-sha"
       MIGRATION_PLANNER_AGENT_UI_REPO_NAME: "AvielSegev/source"
       CONFIG_FILE: "build/config.txt"
-      TOKEN: ${{ secrets.GITHUB_TOKEN }} # Using the default token
 
     steps:
       - uses: actions/checkout@v4
@@ -41,7 +40,6 @@ jobs:
         if: ${{ steps.payload.outputs.repo == env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }}
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ env.TOKEN }}
           branch: ${{ env.BRANCH_NAME }}
           commit-message: |
             chore: Trigger konflux pipeline. 
