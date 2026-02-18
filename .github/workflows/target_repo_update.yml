@@ -39,7 +39,7 @@ jobs:
           commit-message: "chore: Trigger konflux pipeline. The latest sha in repo ${{ env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }} was changed to ${{ steps.payload.outputs.new_sha }}."
           title: "Update agent-ui Repo HEAD"
           body: |
-            Auto update triggered by repository_dispatch.
+            Auto update triggered by $ {{ steps.payload.outputs.repo }}.
             New SHA: ${{ steps.payload.outputs.new_sha }}
           delete-branch: true
 
