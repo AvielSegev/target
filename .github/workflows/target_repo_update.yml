@@ -29,7 +29,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           branch: ${{ env.BRANCH_NAME }}
-          commit-message: "chore: Trigger konflux pipeline. The latest sha in repo ${{ env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }} was changed to ${{ steps.payload.outputs.new_sha }}".
+          commit-message: "chore: Trigger konflux pipeline. The latest sha in repo ${{ env.MIGRATION_PLANNER_AGENT_UI_REPO_NAME }} was changed to ${{ steps.payload.outputs.new_sha }}."
           title: "Update agent-ui Repo HEAD"
           body: |
             Auto update triggered by repository_dispatch.
